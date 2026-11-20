@@ -1,0 +1,23 @@
+[Unit]
+Description=MyPanel API
+After=panel-helper.service
+Requires=panel-helper.service
+
+[Service]
+Type=simple
+User=panel
+Group=panel
+WorkingDirectory=/opt/mypanel
+Environment=NODE_ENV=production
+Environment=PANEL_DB=/var/lib/mypanel/panel.db
+Environment=PANEL_PORT=8080
+ExecStart=/usr/bin/node packages/api/dist/server.js
+Restart=on-failure
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/mypanel /run/panel
+
+[Install]
+WantedBy=multi-user.target

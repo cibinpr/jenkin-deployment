@@ -1,0 +1,16 @@
+{
+  "name": "mypanel",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev:api": "npm run dev -w @mypanel/api",
+    "dev:helper": "npm run dev -w @mypanel/helper",
+    "dev:web": "npm run dev -w @mypanel/web",
+    "build": "npm run build -w @mypanel/helper && npm run build -w @mypanel/api && npm run build -w @mypanel/web",
+    "test": "npm run test -w @mypanel/helper && npm run test -w @mypanel/api",
+    "typecheck": "npm run typecheck -w @mypanel/helper && npm run typecheck -w @mypanel/api"
+  },
+  "engines": { "node": ">=22" }
+}

@@ -1,0 +1,20 @@
+# ==============================================================================
+# MyPanel - Scoped Sudoers configuration for Jenkins Deploy User
+# SRS Reference: Section 15.7
+# Install to: /etc/sudoers.d/mypanel-deploy
+# ==============================================================================
+
+# Allow deploy user to execute deployment, rollback, and backup scripts without password
+deploy ALL=(ALL) NOPASSWD: /opt/mypanel/deployment/deploy.sh *
+deploy ALL=(ALL) NOPASSWD: /opt/mypanel/deployment/rollback.sh
+deploy ALL=(ALL) NOPASSWD: /opt/mypanel/deployment/backup.sh *
+
+# Allow deploy user to manage only the specific MyPanel and Nginx services
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl restart panel-helper
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl restart panel-api
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl reload nginx
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl is-active panel-helper
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl is-active panel-api
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl is-active nginx
+deploy ALL=(ALL) NOPASSWD: /usr/sbin/nginx -t
+deploy ALL=(ALL) NOPASSWD: /bin/mkdir -p /var/backups/mypanel

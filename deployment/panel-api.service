@@ -1,0 +1,32 @@
+[Unit]
+Description=MyPanel Fastify Web API Service
+After=network.target panel-helper.service
+Requires=panel-helper.service
+
+[Service]
+Type=simple
+User=panel
+Group=panel
+WorkingDirectory=/opt/mypanel/packages/api
+ExecStart=/usr/bin/node dist/index.js
+Restart=always
+RestartSec=5s
+
+# Environment configuration
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=8080
+Environment=PANEL_DB=/var/lib/mypanel/panel.db
+Environment=HELPER_SOCKET=/run/panel/helper.sock
+
+# Security Sandboxing
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target

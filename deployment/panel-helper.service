@@ -1,0 +1,23 @@
+[Unit]
+Description=MyPanel Privileged Helper Daemon
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/mypanel/packages/helper
+ExecStart=/usr/bin/node dist/index.js
+Restart=always
+RestartSec=5s
+
+# Environment configuration
+Environment=NODE_ENV=production
+Environment=HELPER_SOCKET=/run/panel/helper.sock
+
+# Runtime directory management
+RuntimeDirectory=panel
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target

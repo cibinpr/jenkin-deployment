@@ -1,0 +1,16 @@
+[Unit]
+Description=MyPanel privileged helper
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/mypanel
+Environment=NODE_ENV=production
+Environment=PANEL_TEMPLATES=/opt/mypanel/templates/
+ExecStart=/usr/bin/node packages/helper/dist/server.js
+Restart=on-failure
+NoNewPrivileges=false
+
+[Install]
+WantedBy=multi-user.target
