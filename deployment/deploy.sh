@@ -72,6 +72,8 @@ rm -f "${RELEASE_TARBALL}"
 # 5. Set appropriate ownership and permissions
 echo "Setting permissions..."
 chown -R root:root "${APP_DIR}"
+chmod -R 755 "${APP_DIR}/deployment" || true
+chmod +x "${APP_DIR}/deployment/"*.sh || true
 # Helper runs as root; API runs as panel
 chown -R panel:panel "${APP_DIR}/packages/api" || true
 chown -R panel:panel "${STATE_DIR}"

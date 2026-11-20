@@ -1,23 +1,17 @@
 [Unit]
-Description=MyPanel Privileged Helper Daemon
+Description=MyPanel privileged helper
 After=network.target
 
 [Service]
 Type=simple
 User=root
-Group=root
-WorkingDirectory=/opt/mypanel/packages/helper
-ExecStart=/usr/bin/node dist/index.js
-Restart=always
-RestartSec=5s
-
-# Environment configuration
+WorkingDirectory=/opt/mypanel
 Environment=NODE_ENV=production
+Environment=PANEL_TEMPLATES=/opt/mypanel/templates/
 Environment=HELPER_SOCKET=/run/panel/helper.sock
-
-# Runtime directory management
-RuntimeDirectory=panel
-RuntimeDirectoryMode=0755
+ExecStart=/usr/bin/node packages/helper/dist/server.js
+Restart=on-failure
+NoNewPrivileges=false
 
 [Install]
 WantedBy=multi-user.target
