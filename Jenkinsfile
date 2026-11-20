@@ -79,9 +79,6 @@ pipeline {
         }
 
         stage('Pre-Deployment Backup & Verification') {
-            when {
-                branch 'main'
-            }
             steps {
                 echo "Connecting to EC2 to perform pre-deployment backup..."
                 sshagent([SSH_KEY_CREDENTIAL]) {
@@ -101,9 +98,6 @@ pipeline {
         }
 
         stage('Deploy to AWS EC2') {
-            when {
-                branch 'main'
-            }
             steps {
                 echo "Deploying release ${env.GIT_COMMIT_SHORT} to AWS EC2..."
                 sshagent([SSH_KEY_CREDENTIAL]) {
@@ -121,9 +115,6 @@ pipeline {
         }
 
         stage('Post-Deployment Health Check') {
-            when {
-                branch 'main'
-            }
             steps {
                 echo "Verifying service status and health checks..."
                 sshagent([SSH_KEY_CREDENTIAL]) {
@@ -155,8 +146,7 @@ pipeline {
         failure {
             echo "Pipeline failed! Initiating rollback notification..."
             script {
-                if (env.BRANCH_NAME == 'main') {
-                    try {
+                try {
                         sshagent([SSH_KEY_CREDENTIAL]) {
                             sh """
                                 ssh -o StrictHostKeyChecking=accept-new ${DEPLOY_USER}@${EC2_HOST} '
@@ -170,7 +160,6 @@ pipeline {
                     } catch (Exception e) {
                         echo "Automated rollback attempt completed with error: ${e.getMessage()}"
                     }
-                }
             }
         }
         always {
