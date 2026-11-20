@@ -36,3 +36,5 @@ Run tests: `npm test`
 ## Status & warning
 This is an **MVP scaffold**. Test on a throwaway VPS first. Read the "Known gaps" in `SPEC.md`
 before hosting anyone else's sites. Domain DNS must point to the server before issuing SSL.
+
+<!-- Auto-deploy test: 2026-11-20 17:33:50 -->
