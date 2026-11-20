@@ -67,12 +67,12 @@ pipeline {
                 echo "Packaging release artifact for deployment..."
                 sh '''
                     mkdir -p release-pkg
-                    tar -czf release-${GIT_COMMIT_SHORT}.tar.gz \
+                    tar -czf release-pkg/release-${GIT_COMMIT_SHORT}.tar.gz \
                         --exclude='.git' \
                         --exclude='node_modules' \
+                        --exclude='release-pkg' \
                         --exclude='*.tar.gz' \
                         .
-                    mv release-${GIT_COMMIT_SHORT}.tar.gz release-pkg/
                 '''
                 archiveArtifacts artifacts: 'release-pkg/*.tar.gz', fingerprint: true
             }
@@ -178,3 +178,4 @@ pipeline {
         }
     }
 }
+
